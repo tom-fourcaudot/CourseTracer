@@ -44,7 +44,7 @@ class Line:
         """Getter of end
 
         Returns:
-            Coord: the Coord object, describing the begin of the line
+            Coord: the Coord object, describing the end of the line
         """
         return self.end
     
@@ -60,8 +60,8 @@ class Line:
         """Setter of end coordinates
 
         Args:
-            x (float): x element of the begin coordinates
-            y (float): y element of the begin coordinates
+            x (float): x element of the end coordinates
+            y (float): y element of the end coordinates
         """
         tmp_C = Coord(x, y)
         self.end = tmp_C
