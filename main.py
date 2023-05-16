@@ -1,37 +1,43 @@
 import pygame
-import color
+import os
+import ressources.color as color
+import ressources.constants as constants
+from toolbar import Toolbar
 
-# define constants
-ICONS_SIZE = 100
-MAX_HEIGHT = 700
+def valid_path(img_path: str) -> bool:
+    return os.path.isfile(img_path)
 
 # start pygame
 pygame.init()
-
-# get image dimension
-img = pygame.image.load("Ressources/malsaucy.png")
 pygame.display.set_caption('draw your course')
 
+img_path="ressources/malsaucy.png"
+while not valid_path(img_path):
+    img_path = input("Enter your image path :\n")
+
+img = pygame.image.load(img_path)
 HEIGHT = img.get_height()
-if HEIGHT > MAX_HEIGHT:
-    img = pygame.transform.scale_by(img, MAX_HEIGHT/HEIGHT)
+if HEIGHT > constants.MAX_HEIGHT:
+    img = pygame.transform.scale_by(img, constants.MAX_HEIGHT/HEIGHT)
     HEIGHT = img.get_height()
-    
 WIDTH = img.get_width()
 
-screen = pygame.display.set_mode((WIDTH, HEIGHT + ICONS_SIZE))
+screen = pygame.display.set_mode((WIDTH, HEIGHT + constants.ICONS_SIZE))
 screen.blit(img, (0, 0))
 
 # paint screen one time
 pygame.display.flip()
 running = True
 
+toolbar = Toolbar(HEIGHT)
 
 while (running):
+    toolbar.draw(screen)
     # get events
     for i in pygame.event.get():
         if i.type == pygame.QUIT:
-            status = False
+            running = False
+            break;
             
         if i.type == pygame.MOUSEBUTTONDOWN:
             pos = pygame.mouse.get_pos()
@@ -40,7 +46,7 @@ while (running):
             if i.button == 3:
                 print(f"right click down at {pos}")
             if pos[1] > HEIGHT:
-                print(f"in toolbar, icon number {int(pos[0]/ICONS_SIZE)}")
+                toolbar.click(pos)
                 
         if i.type == pygame.MOUSEBUTTONUP:
             pos = pygame.mouse.get_pos()
