@@ -1,11 +1,14 @@
 from coord import Coord
 
 class Arc:
-    begin: Coord
-    end: Coord
-    center: Coord
+    begin: Coord # begin of the arc
+    end: Coord # end of the arc
+    center: Coord # center of the arc
     
     def __init__(self) -> None:
+        """Constructor of the Arc
+        Set all values to None. Please use the setter.
+        """
         self.begin = None
         self.end = None
         self.center = None
