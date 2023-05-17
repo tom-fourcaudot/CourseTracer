@@ -22,8 +22,8 @@ class Icon:
         surf.blit(self.img, (self.coord.get_x(), self.coord.get_y()))
         
 class Toolbar:    
-    icons: list
-    actives: list
+    icons: list[Icon]
+    actives: int
     
     def __init__(self, height: int) -> None:
         self.icons = []
@@ -31,11 +31,11 @@ class Toolbar:
         self.icons.append(Icon("Delete", "delete", 1, height))
         self.icons.append(Icon("Draw line", "line", 2, height))
         self.icons.append(Icon("Draw arc", "arc", 3, height))
-        self.actives = [False for i in range(len(self.icons))]
+        self.active = 0
         
     def draw(self, surf: pygame.Surface):
-        for icon, active in zip(self.icons, self.actives):
-            if active:
+        for icon in self.icons:
+            if icon.number == self.active:
                 icon_color = color.cyan
             else:
                 icon_color = color.white
@@ -45,8 +45,12 @@ class Toolbar:
     def click(self, coord):
         icon_number = int(coord[0]/constants.ICONS_SIZE)
         if icon_number < len(self.icons):
-            self.actives = [False for i in range(len(self.icons))]
-            self.actives[icon_number] = True
+            self.active = icon_number
             
     def get_actives(self):
-        return self.actives
+        """Return the number of the active icon
+
+        Returns:
+            int: the number of the active icon
+        """
+        return self.active
