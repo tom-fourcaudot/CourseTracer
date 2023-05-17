@@ -1,4 +1,6 @@
-from coord import Coord
+import pygame
+import ressources.color as color
+from geometry.coord import Coord
 
 class Line:
     """Class Line
@@ -7,12 +9,12 @@ class Line:
     begin: Coord # first point of the Line
     end: Coord # last point of the line
     
-    def __init__(self) -> None:
+    def __init__(self, begin : Coord = None, end : Coord = None) -> None:
         """Simple constructor of the Line.
         Set all datas to None. Please use the setters
         """
-        self.begin = None
-        self.end = None
+        self.begin = begin
+        self.end = end
     
     def get_begin(self) -> Coord:
         """Getter of begin
@@ -65,3 +67,6 @@ class Line:
         """
         tmp_C = Coord(x, y)
         self.end = tmp_C
+        
+    def draw(self, surf: pygame.Surface, col = color.red):
+        pygame.draw.line(surf, col, self.begin.get_coord(), self.end.get_coord(), width=3)
