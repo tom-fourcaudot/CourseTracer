@@ -1,3 +1,5 @@
+import math
+
 class Coord:
     """Class Coord
     use to represent Coordinate in a 2d space
@@ -56,3 +58,5 @@ class Coord:
         """
         return (self.x, self.y)
     
+    def dist(self, c) -> float:
+        return math.dist(self.get_coord(), c.get_coord())
