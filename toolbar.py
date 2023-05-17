@@ -43,7 +43,7 @@ class Toolbar:
         pygame.display.flip()
         
     def click(self, coord):
-        icon_number = int(coord[0]/constants.ICONS_SIZE)
+        icon_number = int(coord.get_x()/constants.ICONS_SIZE)
         if icon_number < len(self.icons):
             self.active = icon_number
             
