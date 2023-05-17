@@ -172,9 +172,32 @@ class Arc:
         
         
     def draw(self, surf: pygame.Surface, col: pygame.Color = color.red):
-        bound_origin = Coord(self.center.get_x() - self.radius, self.center.get_y() - self.radius)
-        bound = pygame.Rect(bound_origin.get_x(), bound_origin.get_y(), self.radius*2, self.radius*2)
-        pygame.draw.arc(surf, col, bound, self.start_angle, self.end_angle, 3)
-        pygame.draw.circle(surf, color.violet, self.center.get_coord(), 2, 2)
+        if self.center != None:
+            bound_origin = Coord(self.center.get_x() - self.radius, self.center.get_y() - self.radius)
+            bound = pygame.Rect(bound_origin.get_x(), bound_origin.get_y(), self.radius*2, self.radius*2)
+            pygame.draw.circle(surf, color.violet, self.center.get_coord(), 2, 2)
+            pygame.draw.arc(surf, col, bound, self.start_angle, self.end_angle, 3)
+        else:
+            pygame.draw.line(surf, col, self.C1.get_coord(), self.C2.get_coord(), 3)
         pygame.draw.circle(surf, color.red, self.C1.get_coord(), 2, 2)
         pygame.draw.circle(surf, color.red, self.C2.get_coord(), 2, 2)
+        
+    def close(self, mouse: Coord, min_d: float):
+        tmp = None
+        
+        c1_dist = mouse.dist(self.C1)
+        if min(min_d, c1_dist) != min_d:
+            min_d = c1_dist
+            tmp = self.C1
+            
+        c2_dist = mouse.dist(self.C2)
+        if min(min_d, c2_dist) != min_d:
+            min_d = c2_dist
+            tmp = self.C2
+            
+        c3_dist = mouse.dist(self.C3)
+        if min(min_d, c3_dist) != min_d:
+            min_d = c3_dist
+            tmp = self.C3
+        
+        return (min_d, tmp)

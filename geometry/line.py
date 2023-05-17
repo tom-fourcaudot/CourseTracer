@@ -70,3 +70,18 @@ class Line:
         
     def draw(self, surf: pygame.Surface, col = color.red):
         pygame.draw.line(surf, col, self.begin.get_coord(), self.end.get_coord(), width=3)
+        
+    def close(self, mouse: Coord, min_d: float):
+        tmp = None
+        
+        begin_dist = mouse.dist(self.begin)
+        if min(min_d, begin_dist) != min_d:
+            min_d = begin_dist
+            tmp = self.begin
+            
+        end_dist =  mouse.dist(self.end)
+        if min(min_d, end_dist) != min_d:
+            min_d = end_dist
+            tmp = self.end
+        
+        return (min_d, tmp)
