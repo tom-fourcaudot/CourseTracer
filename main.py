@@ -4,6 +4,7 @@ import ressources.color as color
 import ressources.constants as constants
 from toolbar import Toolbar
 from geometry.line import Line
+from geometry.arc import Arc
 from geometry.coord import Coord
 
 def valid_path(img_path: str) -> bool:
@@ -28,6 +29,7 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT + constants.ICONS_SIZE))
 # paint screen one time
 pygame.display.flip()
 running = True
+clock = pygame.time.Clock()
 toolbar = Toolbar(HEIGHT)
 
 ########################################################################################
@@ -35,6 +37,7 @@ datas = []
 tmp_points = []
 mode = None
 preview = None
+arc_way = False
 
 def draw_datas(surf: pygame.Surface, datas: list) -> None:
     for data in datas:
@@ -42,6 +45,7 @@ def draw_datas(surf: pygame.Surface, datas: list) -> None:
     pygame.display.flip()
 
 while (running):
+    clock.tick(60)
     screen.blit(img, (0, 0))
     toolbar.draw(screen)
     draw_datas(screen, datas)
@@ -54,7 +58,7 @@ while (running):
             
         if i.type == pygame.MOUSEBUTTONDOWN:
             pos = pygame.mouse.get_pos()
-            if i.button == 1:
+            if i.button == 1: # left click
                 if pos[1] > HEIGHT:
                     old_mode = mode
                     toolbar.click(pos)
@@ -70,12 +74,32 @@ while (running):
                             datas.append(Line(tmp_points[0], tmp_points[1]))
                             tmp_points = []
                             print("New line")
+                    
+                    if mode == 3: # arc mode
+                        tmp_points.append(Coord(pos[0], pos[1]))
+                        if len(tmp_points) == 3:
+                            preview = None
+                            datas.append(Arc(tmp_points[0], tmp_points[1], tmp_points[2], arc_way))
+                            tmp_points = []
+                            print("New arc")
+                        
+            if i.button == 3: # right click
+                if mode == 3:
+                    arc_way = not arc_way
 
         if i.type == pygame.MOUSEMOTION:
             mouse_pos = pygame.mouse.get_pos()
             if mode == 2:
                 if len(tmp_points) == 1:
                     preview = Line(tmp_points[0], Coord(mouse_pos[0], mouse_pos[1]))
+            
+            if mode == 3:
+                if len(tmp_points) == 1:
+                    preview = Line(tmp_points[0], Coord(mouse_pos[0], mouse_pos[1]))
+                if len(tmp_points) == 2:
+                    preview = Arc(tmp_points[0], tmp_points[1], Coord(mouse_pos[0], mouse_pos[1]), arc_way)
+                        
+    # draw preview         
     if preview != None:
         preview.draw(screen, color.blue)
     pygame.display.flip()
