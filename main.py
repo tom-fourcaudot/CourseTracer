@@ -73,6 +73,15 @@ while (running):
             if i.key == pygame.K_RCTRL:
                 ctrl_pressed = True
                 closer = closest_point(datas, mouse_coord)
+                
+            if i.key == pygame.K_BACKSPACE:
+                if len(datas) > 0:
+                    datas.pop(-1)
+                    print("Remove last draw element")
+                    
+            if i.key == pygame.K_SPACE:
+                datas = []
+                print("Reset the drawing")
         
         if i.type == pygame.KEYUP:
             if i.key == pygame.K_RCTRL:
