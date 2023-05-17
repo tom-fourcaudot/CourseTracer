@@ -73,12 +73,10 @@ while (running):
             if i.key == pygame.K_SPACE:
                 ctrl_pressed = True
                 closer = closest_point(datas, mouse_coord)
-                print("ctrl pressed")
         
         if i.type == pygame.KEYUP:
             if i.key == pygame.K_SPACE:
                 ctrl_pressed = False
-                print("ctrl gone")
             
         if i.type == pygame.MOUSEBUTTONDOWN:
             if i.button == 1: # left click
