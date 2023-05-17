@@ -70,12 +70,12 @@ while (running):
             break;
         
         if i.type == pygame.KEYDOWN:
-            if i.key == pygame.K_SPACE:
+            if i.key == pygame.K_RCTRL:
                 ctrl_pressed = True
                 closer = closest_point(datas, mouse_coord)
         
         if i.type == pygame.KEYUP:
-            if i.key == pygame.K_SPACE:
+            if i.key == pygame.K_RCTRL:
                 ctrl_pressed = False
             
         if i.type == pygame.MOUSEBUTTONDOWN:
