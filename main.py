@@ -1,5 +1,6 @@
 import pygame
 import os
+from tkinter import filedialog as fd
 import ressources.color as color
 import ressources.constants as constants
 from toolbar import Toolbar
@@ -12,11 +13,12 @@ def valid_path(img_path: str) -> bool:
 
 # start pygame
 pygame.init()
-pygame.display.set_caption('draw your course')
+pygame.display.set_caption('Draw your course')
 
-img_path="ressources/malsaucy.png"
-while not valid_path(img_path):
-    img_path = input("Enter your image path :\n")
+
+img_path=fd.askopenfilename(title="Select your image")
+# while not valid_path(img_path):
+#     img_path = input("Enter your image path :\n")
 
 img = pygame.image.load(img_path)
 HEIGHT = img.get_height()
