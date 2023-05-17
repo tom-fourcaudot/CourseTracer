@@ -70,7 +70,7 @@ while (running):
             break;
         
         if i.type == pygame.KEYDOWN:
-            if i.key == pygame.K_RCTRL:
+            if i.key == pygame.K_LCTRL:
                 ctrl_pressed = True
                 closer = closest_point(datas, mouse_coord)
                 
@@ -84,7 +84,7 @@ while (running):
                 print("Reset the drawing")
         
         if i.type == pygame.KEYUP:
-            if i.key == pygame.K_RCTRL:
+            if i.key == pygame.K_LCTRL:
                 ctrl_pressed = False
             
         if i.type == pygame.MOUSEBUTTONDOWN:
