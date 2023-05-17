@@ -38,14 +38,27 @@ tmp_points = []
 mode = None
 preview = None
 arc_way = False
+ctrl_pressed = False
+closer = None
 
 def draw_datas(surf: pygame.Surface, datas: list) -> None:
     for data in datas:
         data.draw(surf)
     pygame.display.flip()
+    
+def closest_point(datas: list, mouse: Coord) -> Coord:
+    min_d = 99999
+    best  = None
+    for elem in datas:
+        tmp = elem.close(mouse, min_d)
+        if tmp[1] != None:
+            best = tmp[1]
+            min_d = tmp[0]
+    return best
 
 while (running):
-    clock.tick(60)
+    clock.tick(30)
+    mouse_coord = Coord(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
     screen.blit(img, (0, 0))
     toolbar.draw(screen)
     draw_datas(screen, datas)
@@ -55,20 +68,33 @@ while (running):
         if i.type == pygame.QUIT:
             running = False
             break;
+        
+        if i.type == pygame.KEYDOWN:
+            if i.key == pygame.K_SPACE:
+                ctrl_pressed = True
+                closer = closest_point(datas, mouse_coord)
+                print("ctrl pressed")
+        
+        if i.type == pygame.KEYUP:
+            if i.key == pygame.K_SPACE:
+                ctrl_pressed = False
+                print("ctrl gone")
             
         if i.type == pygame.MOUSEBUTTONDOWN:
-            pos = pygame.mouse.get_pos()
             if i.button == 1: # left click
-                if pos[1] > HEIGHT:
+                if mouse_coord.get_y() > HEIGHT:
                     old_mode = mode
-                    toolbar.click(pos)
+                    toolbar.click(mouse_coord)
                     mode = toolbar.get_actives()
                     if old_mode != mode:
                         tmp_points = []
                         preview = None
                 else:
                     if mode == 2: #line mode
-                        tmp_points.append(Coord(pos[0], pos[1]))
+                        if ctrl_pressed and closer != None:
+                            tmp_points.append(closer)
+                        else:
+                            tmp_points.append(mouse_coord)                     
                         if len(tmp_points) == 2:
                             preview = None
                             datas.append(Line(tmp_points[0], tmp_points[1]))
@@ -76,7 +102,10 @@ while (running):
                             print("New line")
                     
                     if mode == 3: # arc mode
-                        tmp_points.append(Coord(pos[0], pos[1]))
+                        if ctrl_pressed and closer != None:
+                            tmp_points.append(closer)
+                        else:
+                            tmp_points.append(mouse_coord)
                         if len(tmp_points) == 3:
                             preview = None
                             datas.append(Arc(tmp_points[0], tmp_points[1], tmp_points[2], arc_way))
@@ -88,20 +117,24 @@ while (running):
                     arc_way = not arc_way
 
         if i.type == pygame.MOUSEMOTION:
-            mouse_pos = pygame.mouse.get_pos()
             if mode == 2:
                 if len(tmp_points) == 1:
-                    preview = Line(tmp_points[0], Coord(mouse_pos[0], mouse_pos[1]))
+                    preview = Line(tmp_points[0], mouse_coord)
             
             if mode == 3:
                 if len(tmp_points) == 1:
-                    preview = Line(tmp_points[0], Coord(mouse_pos[0], mouse_pos[1]))
+                    preview = Line(tmp_points[0], mouse_coord)
                 if len(tmp_points) == 2:
-                    preview = Arc(tmp_points[0], tmp_points[1], Coord(mouse_pos[0], mouse_pos[1]), arc_way)
-                        
+                    preview = Arc(tmp_points[0], tmp_points[1], mouse_coord, arc_way)
+       
     # draw preview         
     if preview != None:
         preview.draw(screen, color.blue)
+        
+    if ctrl_pressed:
+        closest = closest_point(datas, mouse_coord)
+        if closest != None:
+            pygame.draw.circle(screen, color.green, closest.get_coord(), 5, 5)
     pygame.display.flip()
 # deactivates the pygame library
 pygame.quit()
