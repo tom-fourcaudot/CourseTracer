@@ -27,7 +27,7 @@ class Arc:
         self.start_angle = None
         self.end_angle = None
         self.calculate_center()
-        self.calculate_thetas()
+        self.calculate_thetas(way)
         if way:
             tmp = self.start_angle
             self.start_angle = self.end_angle
@@ -160,12 +160,20 @@ class Arc:
         self.radius = np.sqrt((cx - p1[0])**2 + (cy - p1[1])**2)
         self.set_center(cx, cy)
         
-    def calculate_thetas(self):
+    def calculate_thetas(self, way):
         try:
             relative_begin_coord = Coord(self.C1.get_x() - self.center.get_x(), self.C1.get_y() - self.center.get_y())
-            relative_end_coord = Coord(self.C2.get_x() - self.center.get_x(), self.C2.get_y() - self.center.get_y())
+            relative_end_coord_1 = Coord(self.C2.get_x() - self.center.get_x(), self.C2.get_y() - self.center.get_y())
+            relative_end_coord_2 = Coord(self.C3.get_x() - self.center.get_x(), self.C3.get_y() - self.center.get_y())
             self.start_angle = math.atan2(-relative_begin_coord.get_y(), relative_begin_coord.get_x())
-            self.end_angle = math.atan2(-relative_end_coord.get_y(), relative_end_coord.get_x())
+            end_angle_1 = math.atan2(-relative_end_coord_1.get_y(), relative_end_coord_1.get_x())
+            end_angle_2 = math.atan2(-relative_end_coord_2.get_y(), relative_end_coord_2.get_x())
+            tmp1 = end_angle_1 - self.start_angle + math.pi + math.pi if end_angle_1 - self.start_angle < 0 else end_angle_1
+            tmp2 = end_angle_2 - self.start_angle + math.pi + math.pi if end_angle_2 - self.start_angle < 0 else end_angle_2
+            if tmp1 > tmp2 :
+                self.end_angle = end_angle_2 if way else end_angle_1
+            else:
+                self.end_angle = end_angle_1 if way else end_angle_2
         except :
             self.start_angle = 0
             self.end_angle = 0
