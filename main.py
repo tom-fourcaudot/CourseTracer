@@ -36,12 +36,27 @@ arc_way = False
 ctrl_pressed = False
 closer = None
 
-def draw_datas(surf: pygame.Surface, datas: list) -> None:
+def draw_datas(surf, datas) :
+    """Draw all the current forms
+
+    Args:
+        surf (pygame.Surface): The surface to draw the datas
+        datas (list): the datas
+    """
     for data in datas:
         data.draw(surf)
     pygame.display.flip()
     
-def closest_point(datas: list, mouse: Coord) -> Coord:
+def closest_point(datas, mouse) :
+    """Get the closest coordinate of the mouse
+
+    Args:
+        datas (list): All forms
+        mouse (Coord): Mouse coordinates
+
+    Returns:
+        Coord: Closest Coord if exists, else None
+    """
     min_d = 99999
     best  = None
     for elem in datas:

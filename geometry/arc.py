@@ -5,6 +5,7 @@ import ressources.color as color
 from geometry.coord import Coord
 
 class Arc:
+    """
     C1: Coord # begin of the arc
     C2: Coord # intermediate point of the arc
     C3: Coord # end of the arc
@@ -12,8 +13,9 @@ class Arc:
     radius: float # radius of the arc
     start_angle: float #start angle of the arc, for pygame
     end_angle: float # end angle of the arc, for pygame
+    """
     
-    def __init__(self, C1: Coord, C2: Coord, C3: Coord, way : bool = False) -> None:
+    def __init__(self, C1, C2, C3, way = False):
         """Constructor of the Arc
         Set all values to None. Please use the setter.
         """
@@ -31,7 +33,7 @@ class Arc:
             self.start_angle = self.end_angle
             self.end_angle = tmp
         
-    def get_C1(self) -> Coord:
+    def get_C1(self):
         """Getter of begin
 
         Returns:
@@ -39,7 +41,7 @@ class Arc:
         """
         return self.C1
     
-    def set_C1(self, new_C: Coord) -> None:
+    def set_C1(self, new_C) :
         """Setter of C1 coordinates
 
         Args:
@@ -47,7 +49,7 @@ class Arc:
         """
         self.C1 = new_C
         
-    def set_C1(self, x: float, y: float) -> None:
+    def set_C1(self, x, y) :
         """Setter of C1 coordinates
 
         Args:
@@ -57,7 +59,7 @@ class Arc:
         tmp_C = Coord(x, y)
         self.C1 = tmp_C
         
-    def get_C2(self) -> Coord:
+    def get_C2(self) :
         """Getter of C2 coordinate
 
         Returns:
@@ -65,7 +67,7 @@ class Arc:
         """
         return self.C2
     
-    def set_C2(self, new_C: Coord) -> None:
+    def set_C2(self, new_C) :
         """Setter of C2 coordinates
 
         Args:
@@ -73,7 +75,7 @@ class Arc:
         """
         self.C2 = new_C
         
-    def set_C2(self, x: float, y: float) -> None:
+    def set_C2(self, x, y) :
         """Setter of C2 coordinates
 
         Args:
@@ -83,7 +85,7 @@ class Arc:
         tmp_C = Coord(x, y)
         self.C2 = tmp_C
         
-    def get_C3(self) -> Coord:
+    def get_C3(self) :
         """Getter of C3 coordinate
 
         Returns:
@@ -91,7 +93,7 @@ class Arc:
         """
         return self.C3
     
-    def set_C3(self, new_C: Coord) -> None:
+    def set_C3(self, new_C):
         """Setter of C3 coordinates
 
         Args:
@@ -99,7 +101,7 @@ class Arc:
         """
         self.C3 = new_C
         
-    def set_C3(self, x: float, y: float) -> None:
+    def set_C3(self, x, y):
         """Setter of C3 coordinates
 
         Args:
@@ -109,7 +111,7 @@ class Arc:
         tmp_C = Coord(x, y)
         self.C3 = tmp_C
         
-    def get_center(self) -> Coord:
+    def get_center(self) :
         """Getter of center
 
         Returns:
@@ -117,7 +119,7 @@ class Arc:
         """
         return self.begin
     
-    def set_center(self, new_C: Coord) -> None:
+    def set_center(self, new_C) :
         """Setter of center coordinates
 
         Args:
@@ -125,7 +127,7 @@ class Arc:
         """
         self.center = new_C
         
-    def set_center(self, x: float, y: float) -> None:
+    def set_center(self, x, y) :
         """Setter of center coordinates
 
         Args:
@@ -168,10 +170,7 @@ class Arc:
             self.start_angle = 0
             self.end_angle = 0
             
-    
-        
-        
-    def draw(self, surf: pygame.Surface, col: pygame.Color = color.red):
+    def draw(self, surf, col = color.red):
         if self.center != None:
             bound_origin = Coord(self.center.get_x() - self.radius, self.center.get_y() - self.radius)
             bound = pygame.Rect(bound_origin.get_x(), bound_origin.get_y(), self.radius*2, self.radius*2)
@@ -182,7 +181,7 @@ class Arc:
         pygame.draw.circle(surf, color.red, self.C1.get_coord(), 2, 2)
         pygame.draw.circle(surf, color.red, self.C2.get_coord(), 2, 2)
         
-    def close(self, mouse: Coord, min_d: float):
+    def close(self, mouse, min_d):
         tmp = None
         
         c1_dist = mouse.dist(self.C1)
