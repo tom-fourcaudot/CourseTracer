@@ -117,7 +117,7 @@ class Arc:
         Returns:
             Coord: the Coord object, describing the center of the line
         """
-        return self.center
+        return self.center 
     
     def set_center(self, new_C) :
         """Setter of center coordinates
@@ -160,6 +160,9 @@ class Arc:
         self.radius = np.sqrt((cx - p1[0])**2 + (cy - p1[1])**2)
         self.set_center(cx, cy)
         
+    def get_radius(self):
+        return self.radius
+        
     def calculate_thetas(self, way):
         try:
             relative_begin_coord = Coord(self.C1.get_x() - self.center.get_x(), self.C1.get_y() - self.center.get_y())
@@ -185,7 +188,11 @@ class Arc:
             pygame.draw.circle(surf, color.violet, self.center.get_coord(), 2, 2)
             pygame.draw.arc(surf, col, bound, self.start_angle, self.end_angle, 3)
         else:
-            pygame.draw.line(surf, col, self.C1.get_coord(), self.C2.get_coord(), 3)
+            if self.C1.dist(self.C2) > self.C1.dist(self.C3) :
+                pygame.draw.line(surf, col, self.C1.get_coord(), self.C2.get_coord(), 3)
+            else :
+                pygame.draw.line(surf, col, self.C1.get_coord(), self.C3.get_coord(), 3)
+                
         pygame.draw.circle(surf, color.red, self.C1.get_coord(), 2, 2)
         pygame.draw.circle(surf, color.red, self.C2.get_coord(), 2, 2)
         
@@ -208,3 +215,15 @@ class Arc:
             tmp = self.C3
         
         return (min_d, tmp)
+    
+    def get_angle(self):
+        if not self.center == None:
+            return self.end_angle - self.start_angle
+        else:
+            return math.pi + math.pi
+    
+    def len(self):
+        if not self.center == None:
+            return self.get_angle() * self.radius
+        else :
+            return max(self.C1.dist(self.C2), self.C1.dist(self.C2))
