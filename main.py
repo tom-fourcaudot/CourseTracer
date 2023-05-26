@@ -161,3 +161,51 @@ while (running):
     pygame.display.flip()
 # deactivates the pygame library
 pygame.quit()
+
+
+### Exemples
+### Creation of false datas : dummy_data = [Line, Arc]
+dummy_datas = []
+dummy_coord = Coord(3, 5)
+dummy_line = Line(Coord(0, 0), Coord(20, 32))
+dummy_arc = Arc(Coord(32, 32), Coord(18, 20), Coord(65, 34))
+dummy_datas.append(dummy_line)
+dummy_datas.append(dummy_arc)
+
+
+### Coord function
+print("Coord methods :")
+print(type(dummy_coord))
+print(f"Coord.get_coord() : {dummy_coord.get_coord()}")
+print(f"Coord.get_x() : {dummy_coord.get_x()}")
+print(f"Coord.get_y() : {dummy_coord.get_y()}")
+print(f"Coord(x, y) to create new Coord")
+dummy_coord_2 = Coord(5, 10)
+print(f"Coord.dist(Coord) for the Euclidian distance between 2 coord : {dummy_coord.dist(dummy_coord_2)}")
+
+print("\n")
+### Line function
+### Reminder : dummy_data[0] is a Line object
+### All point of each form use a Coord object. When you use Line.get_begin(), it will return a Coord object. Then, use get_coord() or get_x() to get the numeric datas
+### exemple : dummy_line.get_begin() return a Coord object. dummy_line.get_begin().get_coord() return [0, 0]
+print("Line methods :")
+print(type(dummy_datas[0]))
+print(f"Line.get_begin() (first point placed for the line): {dummy_line.get_begin().get_coord()}")
+print(f"Line.get_end() (second point placed for the line): {dummy_line.get_end().get_coord()}")
+print(f"Line.len() (len of the line): {dummy_line.len()}")
+print(f"Line(Coord, Coord) to create a new Line")
+
+print("\n")
+### Arc functions
+### Reminder : dummy_data[1] is a Arc object
+### All point of each form use a Coord object. When you use Arc.get_C1(), it will return a Coord object. Then, use get_coord() or get_x() to get the numeric datas
+### exemple : dummy_arc.get_C1() return a Coord object. dummy_arc.get_C1().get_coord() return [32, 32]
+print("Arc methods :")
+print(type(dummy_datas[1]))
+print(f"Arc.get_C1() (first point placed for the Arc) : {dummy_arc.get_C1().get_coord()}")
+print(f"Arc.get_C2() (second point placed for the Arc) : {dummy_arc.get_C2().get_coord()}")
+print(f"Arc.get_C3() (third point placed for the Arc) : {dummy_arc.get_C1().get_coord()}")
+print(f"Arc.get_center() (calculated center of the Arc) : {dummy_arc.get_center().get_coord()}")
+print(f"Arc.get_angle() (angle of the arc in radians) : {dummy_arc.get_angle()}")
+print(f"Arc.get_radius() (radius of the arc) : {dummy_arc.get_radius()}")
+print(f"Arc.len() (len of the arc) : {dummy_arc.len()}")
