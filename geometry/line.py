@@ -100,3 +100,11 @@ class Line:
             tmp = self.end
         
         return (min_d, tmp)
+    
+    def len(self) -> float:
+        """Return the len of the Line
+
+        Returns:
+            float: len of the Line
+        """
+        return self.begin.dist(self.end)
