@@ -117,7 +117,7 @@ class Arc:
         Returns:
             Coord: the Coord object, describing the center of the line
         """
-        return self.begin
+        return self.center
     
     def set_center(self, new_C) :
         """Setter of center coordinates
