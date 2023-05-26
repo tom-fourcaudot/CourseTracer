@@ -218,7 +218,7 @@ class Arc:
     
     def get_angle(self):
         if not self.center == None:
-            return self.end_angle - self.start_angle
+            return self.start_angle - self.end_angle
         else:
             return math.pi + math.pi
     
