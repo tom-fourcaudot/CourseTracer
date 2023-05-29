@@ -161,9 +161,19 @@ class Arc:
         self.set_center(cx, cy)
         
     def get_radius(self):
+        """Getter of the radius attribute
+
+        Returns:
+            float: the radius in radians
+        """
         return self.radius
         
     def calculate_thetas(self, way):
+        """Calculate the angle relative to the 2D plan. Put it directly in self attributes.
+
+        Args:
+            way (bool): say if we changed the way of the arc
+        """
         try:
             relative_begin_coord = Coord(self.C1.get_x() - self.center.get_x(), self.C1.get_y() - self.center.get_y())
             relative_end_coord_1 = Coord(self.C2.get_x() - self.center.get_x(), self.C2.get_y() - self.center.get_y())
@@ -182,6 +192,12 @@ class Arc:
             self.end_angle = 0
             
     def draw(self, surf, col = color.red):
+        """Draw the arc on a pygame surface
+
+        Args:
+            surf (pygame.Surface): The surface we want to draw
+            col (Color, optional): The color of the arc. Defaults to color.red.
+        """
         if self.center != None:
             bound_origin = Coord(self.center.get_x() - self.radius, self.center.get_y() - self.radius)
             bound = pygame.Rect(bound_origin.get_x(), bound_origin.get_y(), self.radius*2, self.radius*2)
@@ -197,6 +213,15 @@ class Arc:
         pygame.draw.circle(surf, color.red, self.C2.get_coord(), 2, 2)
         
     def close(self, mouse, min_d):
+        """Return the closest coordinate of the mouse coordinate, if the distance is below min_d
+
+        Args:
+            mouse (Coord): The coordinate we need to compare
+            min_d (float): The minimun distance
+
+        Returns:
+            (float, Coord): The new min_d and Coordinate if there is None else
+        """
         tmp = None
         
         c1_dist = mouse.dist(self.C1)
@@ -217,12 +242,22 @@ class Arc:
         return (min_d, tmp)
     
     def get_angle(self):
+        """Calculate and return the total angle of the arc. If the arc a Line, it will return 2 PI
+
+        Returns:
+            float: the angle in gradians
+        """
         if not self.center == None:
             return self.start_angle - self.end_angle
         else:
             return math.pi + math.pi
     
     def len(self):
+        """Calculate and return the len of the arc
+
+        Returns:
+            float: the len of the arc
+        """
         if not self.center == None:
             return self.get_angle() * self.radius
         else :
